@@ -1,8 +1,5 @@
 #include <iostream>
-#include <cstring>
-using std::cin;
-using std::cout;
-using std::strcmp;
+using std::cin,std::cout;
 
 class Node{
 public:
@@ -26,9 +23,7 @@ public:
     }
     virtual int get(int key) = 0;
     virtual void set(int key, int value) = 0;
-    virtual void key_check(int _key) = 0;
-    virtual void move_front(int value) = 0;
-    virtual void show(){ cout<<"Show buffer";}
+    friend void show(Cache*);
 
     virtual ~Cache(){
         mp = head;
@@ -44,7 +39,7 @@ public:
 
 class LRUCache:public Cache{
 private:
-    void key_check(int _key) override {
+    void key_check(int _key) {
         if(head != nullptr){
             mp = head;
             while(mp != nullptr){
@@ -56,7 +51,7 @@ private:
         }
     }
 
-    void move_front(int value) override {
+    void move_front(int value) {
         if(mp->key != tail->key){
             mp->next->prev = mp->prev;
         }else{
@@ -130,36 +125,34 @@ public:
             return;
         }
     }
-
-    void show() override {
-        if(head != nullptr){
-            mp = head;
-            while(mp != nullptr){
-                cout<<mp->key<<" ";
-                mp = mp->next;
-            }
-            cout<<"\n";
-            mp = head;
-            while(mp != nullptr){
-                cout<<mp->value<<" ";
-                mp = mp->next;
-            }
-            cout<<"\n";
-            cout<<"-----------------------"<<"\n";
-        }else{
-            cout<<"Empty"<<"\n";
-        }
-
-    }
 };
+
+void show(Cache* cache) {
+    if(cache->head != nullptr){
+        cache->mp = cache->head;
+        while(cache->mp != nullptr){
+            cout<<cache->mp->key<<" ";
+            cache->mp = cache->mp->next;
+        }
+        cout<<"\n";
+        cache->mp = cache->head;
+        while(cache->mp != nullptr){
+            cout<<cache->mp->value<<" ";
+            cache->mp = cache->mp->next;
+        }
+        cout<<"\n";
+        cout<<"-----------------------"<<"\n";
+    }else{
+        cout<<"Empty"<<"\n";
+    }
+}
 
 int main() {
     size_t M;
     char command[20];
     int N,key,value=0,result;
     cin>>N>>M;
-    LRUCache* test = new LRUCache(M);
-    Cache* cache = test;
+    Cache* cache = new LRUCache(M);
     while(N != 0){
         cin>>command>>key;
         if(strcmp(command,"get") == 0){
@@ -169,7 +162,7 @@ int main() {
             cin>>value;
             cache->set(key,value);
         }
-        cache->show();
+        show(cache);
         --N;
     }
 
