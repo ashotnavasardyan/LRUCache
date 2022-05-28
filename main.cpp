@@ -1,5 +1,8 @@
 #include <iostream>
-using std::cin,std::cout;
+#include <cstring>
+using std::cin;
+using std::cout;
+using std::strcmp;
 
 class Node{
 public:
