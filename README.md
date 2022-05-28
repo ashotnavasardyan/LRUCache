@@ -1,15 +1,19 @@
 # LRUCache
 This is the one of implementations of LRUCache.
 
-#Steps
+# Steps
+
 1.Enter number of commands(N) you want to make on cache.
+
 2.Enter size of buffer for cache.
+
 3.And start to enter your command on given format.
 
-get KEY (Returns Value of the key if exists else -1)
-set KEY VALUE (Inserts if current KEY doesn't exists)
+* get KEY (Returns Value of the key if exists else -1)
 
-#Exaple
+* set KEY VALUE (Inserts if current KEY doesn't exists)
+
+# Exaple
 
 10 4
 set 50 43
