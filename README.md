@@ -13,7 +13,7 @@ This is the one of implementations of LRUCache.
 
 * set KEY VALUE (Inserts if current KEY doesn't exists)
 
-# Exaple
+# Example
 
 10 4 <br />
 set 50 43<br />
