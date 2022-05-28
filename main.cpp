@@ -28,7 +28,7 @@ class Cache{
         while(mp->key != tail->key){
             temp = mp;
             mp = mp->next;
-            delete mp;
+            delete temp;
         }
         delete tail;
     }
@@ -36,17 +36,16 @@ class Cache{
 
 class LRUCache:public Cache{
     private:
-    Node* key_check(int _key){
+    void key_check(int _key){
         if(head != nullptr){
             mp = head;
             while(mp != nullptr){
                 if(mp->key == _key){
-                    return mp;
+                    return;
                 }
                 mp = mp->next;
             }
         }
-        return nullptr;
     }
 
     void move_front(int value){
@@ -72,23 +71,28 @@ class LRUCache:public Cache{
     explicit LRUCache(size_t M): Cache(M) {}
 
     int get(int key) override {
-        if(key <= 2000) {
+        if(1 <= key && key <= 2000) {
             key_check(key);
             if (mp != nullptr) {
                 if (head->key != mp->key) {
                     move_front(mp->value);
+                    return mp->value;
+                }else {
+                    return head->value;
                 }
-                return mp->value;
+
             }
         }
         return -1;
     }
 
     void set(int key, int value) override {
-        if (key <= 2000 && value <= 2000) {
+        if (1 <= key && 1 <= value && key <= 2000 && value <= 2000) {
             key_check(key);
             if (mp != nullptr) {
-                move_front(value);
+                if(mp->key != head->key){
+                    move_front(value);
+                }
                 head->value = value;
             } else {
                 if (sz == cp) {
@@ -142,17 +146,17 @@ class LRUCache:public Cache{
 };
 
 int main() {
-    int N;
     size_t M;
     char command[20];
-    int key,value=0;
+    int N,key,value=0,result;
     cin>>N>>M;
     LRUCache* cache = new LRUCache(M);
 
     while(N != 0){
         cin>>command>>key;
         if(strcmp(command,"get") == 0){
-            cache->get(key);
+            result = cache->get(key);
+            cout<<"("<<result<<")"<<"\n";
         }else if((strcmp(command,"set") == 0)){
             cin>>value;
             cache->set(key,value);
